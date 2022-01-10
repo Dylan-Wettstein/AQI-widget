@@ -1,4 +1,4 @@
-# How to Costomize the high AQI message
+# How to Customize the high AQI message
 1. Locate the AQI widget on your home screen.
 2. Long-press the widget and tap on «Edit Widget».
 3. Type any number in the «Parameter» field and hit enter.
