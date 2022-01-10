@@ -1,8 +1,5 @@
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: cyan; icon-glyph: snowflake;
 /**
- * Version: 3.1.8 (Build 18)
+ * Version: 5.2.3 (Build 35)
  * Partitially created and modified by Dylan Wettstein, 2022.
  * Report bugs by contacting me: contact@dylanwettstein.com
  * Get the newest version by contacting me: contact@dylanwettstein.com
@@ -14,13 +11,19 @@
 
 const API_URL = "https://www.purpleair.com";
 
+var version = "5.2.3"
+
+console.log ("Version " + version)
+
 /**
  * Find a nearby PurpleAir sensor ID via https://fire.airnow.gov/
  * Click a sensor near your location: the ID is the trailing integers
  * https://www.purpleair.com/json has all sensors by location & ID.
  * @type {number}
  */
-const SENSOR_ID = args.widgetParameter;
+
+//const SENSOR_ID = args.widgetParameter;
+const SENSOR_ID = args.null
 
 /**
  * Widget attributes: AQI level threshold, text label, gradient start and end colors, text color
@@ -585,7 +588,7 @@ async function run() {
     
     console.log("aqiText = " + aqiText)
     
-    if (aqiText > 49.9) {
+    if (aqiText > args.widgetParameter) {
         console.log("High AQI warning notification")
         let n2 = new Notification()
 		n2.title = "AQI Alert for your area"
@@ -594,6 +597,7 @@ async function run() {
 		n2.addAction("Refresh", "scriptable:///run/AQI%20(Air%20Quality%20Index)", false)
 		n2.addAction("More information", `https://www.purpleair.com/map?opt=1/i/mAQI/a10/cC5&select=${sensorId}#14/${data.lat}/${data.lon}`, false)
 		n2.addAction("News", "https://news.google.com/topstories?hl=en-US&gl=US&ceid=US:en", false)
+		n2.addAction("Customize/Disable Alert", "https://github.com/Dylan-Wettstein/AQI-widget/blob/main/how_to_CUSTOMIZE_or_DISABLE_HIGH_AQI_WARNING.md", true)
 		n2.addAction("Call ambulance", "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers?wprov=sfti1", true)
 		n2.openURL = "scriptable:///run/AQI%20(Air%20Quality%20Index)"
 		n2.sound = "alarm"
@@ -655,7 +659,7 @@ let r = new Request(url)
 let body = await r.loadString()
 if (config.runsInApp) {  
 
-	let needles = ["<p>Aktuelle Version: 4.3.6"]
+	let needles = ["<p>Aktuelle Version: " + version]
 	let foundNeedles = needles.filter(n => {
     return body.includes(n)
   })
